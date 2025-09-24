@@ -1,0 +1,15 @@
+
+{
+  "name": "rolo-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone",
+  "id": "your-app-id",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://backend-ypgb6g.fly.dev/api"
+    }
+  ]
+}

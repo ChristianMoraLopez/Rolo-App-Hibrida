@@ -1,0 +1,128 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+/* Import app theme variables */
+@import './app/theme/variables.scss';
+
+/* Leaflet + custom marker styles */
+.leaflet-container {
+	z-index: 1;
+}
+
+.custom-marker-icon {
+	color: var(--azulprimary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.custom-marker-icon svg {
+	color: currentColor;
+}
+
+.leaflet-popup-content-wrapper {
+	border-radius: 0.5rem;
+}
+
+.leaflet-popup-content {
+	margin: 0.5rem 0.75rem;
+}
+
+/* Map palette to Ionic color variables so components pick it up */
+:root {
+	--ion-color-primary: var(--azulprimary);
+	--ion-color-primary-rgb: 13, 58, 219; /* approx for azulprimary */
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-contrast-rgb: 255,255,255;
+
+	--ion-color-secondary: var(--azulsecundario);
+	--ion-color-secondary-contrast: #000000;
+
+	--ion-color-success: var(--verdeprimary);
+	--ion-color-danger: var(--rojoprimary);
+	--ion-color-warning: var(--verdelight);
+
+	--ion-item-background: #ffffff;
+	--ion-card-background: #ffffff;
+}
+
+/* Global UI styling using palette */
+ion-header, .app-header {
+	background: linear-gradient(90deg, var(--azulprimary), var(--azulclaro));
+	color: white;
+}
+
+ion-toolbar ion-title {
+	color: white;
+	font-weight: 600;
+}
+
+/* Primary buttons */
+.button-primary, ion-button.ion-color-primary, .btn-primary {
+	--background: var(--azulprimary);
+	--background-activated: var(--azulhover);
+	--color: #ffffff;
+}
+
+/* Secondary buttons */
+.button-secondary, .btn-secondary {
+	background: var(--azulsecundario);
+	color: #000;
+}
+
+/* Cards */
+ion-card {
+	border-radius: var(--app-radius);
+	box-shadow: 0 6px 18px rgba(10,20,40,0.06);
+}
+
+a, a:link, a:visited {
+	color: var(--azulprimary);
+}
+
+/* Inputs focus ring */
+ion-input::part(native) {
+	outline: none;
+}
+ion-item.ion-focused {
+	box-shadow: 0 0 0 3px rgba(13,58,219,0.12);
+}
+
+/* Small utility classes */
+.text-primary { color: var(--azulprimary) !important; }
+.bg-primary { background: var(--azulprimary) !important; }
+.rounded { border-radius: var(--app-radius); }

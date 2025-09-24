@@ -1,0 +1,187 @@
+﻿<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Explorar Ubicaciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/tabs/add-location">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh()">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Search and Filters -->
+  <div class="search-filters-container">
+    <!-- Search Bar -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearchChange()"
+      placeholder="Buscar ubicaciones..."
+      show-clear-button="focus">
+    </ion-searchbar>
+
+    <!-- Filters -->
+    <ion-card class="filters-card">
+      <ion-card-header>
+        <ion-card-title>Filtros</ion-card-title>
+        <ion-button 
+          *ngIf="hasActiveFilters()" 
+          fill="clear" 
+          size="small" 
+          (click)="clearFilters()">
+          Limpiar
+        </ion-button>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <!-- Sensations Filter -->
+        <div class="filter-section">
+          <h4>Sensaciones</h4>
+          <div class="filter-chips">
+            <ion-chip 
+              *ngFor="let sensation of availableSensations"
+              [color]="selectedSensations.includes(sensation) ? 'primary' : 'medium'"
+              (click)="onSensationToggle(sensation)">
+              <ion-label>{{ sensation }}</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+
+        <!-- Smells Filter -->
+        <div class="filter-section">
+          <h4>Aromas</h4>
+          <div class="filter-chips">
+            <ion-chip 
+              *ngFor="let smell of availableSmells"
+              [color]="selectedSmells.includes(smell) ? 'primary' : 'medium'"
+              (click)="onSmellToggle(smell)">
+              <ion-label>{{ smell }}</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Locations Grid -->
+  <div class="locations-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col 
+          *ngFor="let location of filteredLocations; trackBy: trackByLocationId" 
+          size="12" 
+          size-md="6" 
+          size-lg="4">
+          <ion-card 
+            class="location-card" 
+            button 
+            (click)="viewLocationDetails(location._id)">
+            
+            <!-- Location Image -->
+            <div class="image-container">
+              <img 
+                *ngIf="location.images && location.images.length > 0" 
+                [src]="location.images[0].src" 
+                [alt]="location.name"
+                class="location-image">
+              <div *ngIf="!location.images || location.images.length === 0" 
+                   class="no-image">
+                <ion-icon name="location-outline"></ion-icon>
+              </div>
+            </div>
+
+            <ion-card-header>
+              <ion-card-title>{{ location.name }}</ion-card-title>
+              <ion-card-subtitle>
+                <ion-icon name="location-outline"></ion-icon>
+                {{ location.address }}
+              </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p class="description">{{ location.description }}</p>
+              
+              <!-- Sensations -->
+              <div *ngIf="location.sensations && location.sensations.length > 0" 
+                   class="tags-container">
+                <h5>Sensaciones:</h5>
+                <ion-chip 
+                  *ngFor="let sensation of location.sensations.slice(0, 3)" 
+                  size="small" 
+                  color="secondary">
+                  <ion-label>{{ sensation }}</ion-label>
+                </ion-chip>
+                <span *ngIf="location.sensations.length > 3" class="more-tags">
+                  +{{ location.sensations.length - 3 }} más
+                </span>
+              </div>
+
+              <!-- Smells -->
+              <div *ngIf="location.smells && location.smells.length > 0" 
+                   class="tags-container">
+                <h5>Aromas:</h5>
+                <ion-chip 
+                  *ngFor="let smell of location.smells.slice(0, 3)" 
+                  size="small" 
+                  color="tertiary">
+                  <ion-label>{{ smell }}</ion-label>
+                </ion-chip>
+                <span *ngIf="location.smells.length > 3" class="more-tags">
+                  +{{ location.smells.length - 3 }} más
+                </span>
+              </div>
+
+              <!-- Location Info -->
+              <div class="location-info">
+                <div class="creator-info">
+                  <ion-icon name="person-outline"></ion-icon>
+                  <span>{{ getCreatorName(location) }}</span>
+                </div>
+                <div class="date-info">
+                  <ion-icon name="time-outline"></ion-icon>
+                  <span>{{ formatDate(location.createdAt) }}</span>
+                </div>
+                <div class="comments-info">
+                  <ion-icon name="chatbubble-outline"></ion-icon>
+                  <span>{{ location.commentsCount || 0 }} comentarios</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading && filteredLocations.length === 0" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando ubicaciones...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && filteredLocations.length === 0 && locations.length === 0" class="empty-state">
+    <ion-icon name="location-outline" size="large"></ion-icon>
+    <h2>No hay ubicaciones aún</h2>
+    <p>Sé el primero en compartir un lugar especial</p>
+    <ion-button routerLink="/tabs/add-location">Agregar Ubicación</ion-button>
+  </div>
+
+  <!-- No Results -->
+  <div *ngIf="!loading && filteredLocations.length === 0 && locations.length > 0" class="no-results">
+    <ion-icon name="search-outline" size="large"></ion-icon>
+    <h2>No se encontraron resultados</h2>
+    <p>Intenta ajustar tus filtros de búsqueda</p>
+    <ion-button fill="outline" (click)="clearFilters()">Limpiar Filtros</ion-button>
+  </div>
+</ion-content>

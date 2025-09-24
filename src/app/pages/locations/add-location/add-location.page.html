@@ -1,0 +1,167 @@
+﻿<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/explore"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Ubicación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form (ngSubmit)="createLocation()">
+    <!-- Basic Information -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Información Básica</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre del lugar *</ion-label>
+          <ion-input 
+            [(ngModel)]="locationData.name"
+            name="name"
+            placeholder="Ej: Café de la esquina, Parque favorito..."
+            required>
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Descripción *</ion-label>
+          <ion-textarea 
+            [(ngModel)]="locationData.description"
+            name="description"
+            placeholder="Describe qué hace especial a este lugar..."
+            rows="4"
+            required>
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Dirección</ion-label>
+          <ion-input 
+            [(ngModel)]="locationData.address"
+            name="address"
+            placeholder="Dirección o referencia del lugar">
+          </ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Location -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Ubicación</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="location-section">
+          <ion-button 
+            expand="block" 
+            fill="outline"
+            (click)="getCurrentLocation()"
+            [disabled]="gettingLocation">
+            <ion-spinner *ngIf="gettingLocation" name="crescent" size="small"></ion-spinner>
+            <ion-icon *ngIf="!gettingLocation" name="location-outline" slot="start"></ion-icon>
+            <span *ngIf="!gettingLocation">Obtener Ubicación Actual</span>
+            <span *ngIf="gettingLocation">Obteniendo ubicación...</span>
+          </ion-button>
+
+          <div *ngIf="locationData.coordinates" class="coordinates-display">
+            <p>
+              <ion-icon name="checkmark-circle" color="success"></ion-icon>
+              Ubicación obtenida: {{ locationData.coordinates.lat.toFixed(6) }}, {{ locationData.coordinates.lng.toFixed(6) }}
+            </p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Images -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Imágenes</ion-card-title>
+        <ion-card-subtitle>Comparte fotos que capturen la esencia del lugar</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="image-actions">
+          <ion-button expand="block" fill="outline" (click)="selectFromGallery()">
+            <ion-icon name="images-outline" slot="start"></ion-icon>
+            Seleccionar de Galería
+          </ion-button>
+          
+          <ion-button expand="block" fill="outline" (click)="takePhoto()">
+            <ion-icon name="camera-outline" slot="start"></ion-icon>
+            Tomar Foto
+          </ion-button>
+        </div>
+
+        <!-- Image Preview -->
+        <div *ngIf="imagePreviewUrls.length > 0" class="image-preview-grid">
+          <div *ngFor="let url of imagePreviewUrls; let i = index" class="image-preview-item">
+            <img [src]="url" alt="Preview">
+            <ion-button 
+              fill="clear" 
+              color="danger" 
+              class="remove-image-btn"
+              (click)="removeImage(i)">
+              <ion-icon name="close-circle"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Sensations -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Sensaciones</ion-card-title>
+        <ion-card-subtitle>¿Qué sensaciones transmite este lugar?</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chips-container">
+          <ion-chip 
+            *ngFor="let sensation of availableSensations"
+            [color]="isSensationSelected(sensation) ? 'primary' : 'medium'"
+            (click)="onSensationToggle(sensation)">
+            <ion-label>{{ sensation }}</ion-label>
+          </ion-chip>
+        </div>
+        
+        <div *ngIf="hasSelectedSensations()" class="selected-count">
+          {{ locationData.sensations?.length }} sensación(es) seleccionada(s)
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Smells -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Aromas</ion-card-title>
+        <ion-card-subtitle>¿Qué aromas caracterizan este lugar?</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chips-container">
+          <ion-chip 
+            *ngFor="let smell of availableSmells"
+            [color]="isSmellSelected(smell) ? 'secondary' : 'medium'"
+            (click)="onSmellToggle(smell)">
+            <ion-label>{{ smell }}</ion-label>
+          </ion-chip>
+        </div>
+        
+        <div *ngIf="hasSelectedSmells()" class="selected-count">
+          {{ locationData.smells?.length }} aroma(s) seleccionado(s)
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Submit Button -->
+    <ion-button 
+      expand="block" 
+      type="submit"
+      [disabled]="loading"
+      class="submit-button">
+      <ion-spinner *ngIf="loading" name="crescent" size="small"></ion-spinner>
+      <span *ngIf="!loading">Crear Ubicación</span>
+    </ion-button>
+  </form>
+</ion-content>

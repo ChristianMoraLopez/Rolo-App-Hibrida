@@ -1,0 +1,78 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Lugares Destacados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="locations-content">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1 class="page-title">Lugares Destacados</h1>
+    <p class="page-subtitle">Descubre espacios únicos de nuestra ciudad</p>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <ion-searchbar 
+      placeholder="Buscar lugares..."
+      animated="true"
+      (ionInput)="handleSearch($event)"
+      class="custom-searchbar">
+    </ion-searchbar>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando lugares...</p>
+  </div>
+
+  <!-- Locations Grid -->
+  <div class="locations-grid" *ngIf="!isLoading && locations.length > 0">
+    <ion-card *ngFor="let location of filteredLocations" class="location-card" (click)="selectLocation(location)">
+      <!-- Image Header -->
+      <div class="card-image-container">
+        <img [src]="location.images?.[0]?.src || 'assets/placeholder.jpg'" [alt]="location.name">
+        <div class="image-overlay"></div>
+        <div class="location-name-overlay">
+          <ion-icon name="location-outline"></ion-icon>
+          <span>{{ location.name }}</span>
+        </div>
+      </div>
+
+      <!-- Card Content -->
+      <ion-card-content>
+        <p class="location-description">{{ truncateDescription(location.description) }}</p>
+        
+        <!-- Comments Preview -->
+        <div class="comment-preview" *ngIf="location.commentsList?.length > 0">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <p>{{ location.commentsList[0].content }}</p>
+        </div>
+
+        <!-- Tags -->
+        <div class="tags-container">
+          <ion-chip *ngIf="location.sensations?.length > 0" class="sensation-chip">
+            <ion-label>{{ processArrayString(location.sensations) }}...</ion-label>
+          </ion-chip>
+          <ion-chip *ngIf="location.smells?.length > 0" class="smell-chip">
+            <ion-label>{{ processArrayString(location.smells) }}...</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!isLoading && filteredLocations.length === 0">
+    <ion-icon name="search-outline"></ion-icon>
+    <p>No se encontraron lugares que coincidan con la búsqueda</p>
+  </div>
+
+  <!-- FAB Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createTestLocation()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

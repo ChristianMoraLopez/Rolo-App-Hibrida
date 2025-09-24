@@ -1,0 +1,47 @@
+/* Theme variables for Rolo App */
+:root {
+
+  /* Verde */
+  --verdeprimary: #96E600;
+  --verdehover: #85D400;
+  --verdelight: #B4FF33;
+  --verdesaturado: #7AC800;
+  --verdereducido: #A8E67A;
+
+  /* Rojo */
+  --rojoprimary: #E62C07;
+  --rojohover: #CC2606;
+  --rojointenso: #FF3D1A;
+  --rojoclaro: #FF6B4D;
+  --rojobajo: #D96B5A;
+
+  /* Morado */
+  --moradoprimary: #AD00E6;
+  --moradohover: #9C00CC;
+  --moradoclaro: #C64DFF;
+  --moradosaturado: #8800B3;
+  --moradoreducido: #BA7ACC;
+
+  /* Azul */
+  --azulprimary: #0D3ADB;
+  --azulhover: #0B32C2;
+  --azulclaro: #4D6BFF;
+  --azulsaturado: #0B2BAA;
+  --azulreducido: #7A91E6;
+
+  /* Azul secundario */
+  --azulsecundario: #31DBFF;
+  --azulsechover: #2BBFD9;
+  --azulsecundarioclaro: #5BE6FF;
+  --azulsecundariosaturado: #2AA8CC;
+  --azulsecundarioreducido: #7ACEE6;
+
+  /* App-level tokens */
+  --app-font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --app-radius: 8px;
+}
+
+/* Small helpers for semantic variables used across the app */
+body {
+  font-family: var(--app-font-family);
+}

@@ -1,0 +1,250 @@
+﻿<app-header title="Mapa de Sensaciones"></app-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh()">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="feed-container">
+    <!-- Welcome Section -->
+    <app-welcome></app-welcome>
+
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-wrapper">
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          (ionInput)="onSearchChange()"
+          placeholder="Buscar lugares, sensaciones, aromas..."
+          show-clear-button="focus"
+          class="custom-searchbar">
+        </ion-searchbar>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+      <h2 class="section-title">
+        <ion-icon name="map-outline"></ion-icon>
+        Mapa de Ubicaciones
+      </h2>
+      <app-google-map 
+        [locations]="filteredLocations"
+        (locationSelected)="onLocationSelected()">
+      </app-google-map>
+    </div>
+
+    <!-- Featured Locations Section -->
+    <div class="locations-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <ion-icon name="star-outline"></ion-icon>
+          Lugares Destacados
+        </h2>
+        <p class="section-subtitle">Descubre espacios únicos de nuestra ciudad</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredLocations.length === 0 && !loading" class="empty-state">
+        <ion-icon name="search-outline" size="large"></ion-icon>
+        <h3>No se encontraron lugares</h3>
+        <p>que coincidan con la búsqueda</p>
+        <ion-button fill="outline" (click)="clearSearch()">Limpiar Búsqueda</ion-button>
+      </div>
+
+      <!-- Location Cards Grid -->
+      <div *ngIf="filteredLocations.length > 0" class="locations-grid">
+        <ion-card 
+          *ngFor="let location of filteredLocations" 
+          class="location-card featured-card"
+          [routerLink]="['/locations', location._id]">
+          
+          <!-- Image Section -->
+          <div class="card-image-container">
+            <img 
+              *ngIf="location.images && location.images.length > 0" 
+              [src]="location.images[0].src" 
+              [alt]="location.name"
+              class="location-image">
+            <div *ngIf="!location.images || location.images.length === 0" 
+                 class="no-image">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+            
+            <!-- Gradient Overlay -->
+            <div class="image-gradient"></div>
+            
+            <!-- Location Name Overlay -->
+            <div class="image-overlay-text">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ location.name }}</span>
+            </div>
+          </div>
+
+          <!-- Content Section -->
+          <ion-card-content class="featured-content">
+            <p class="description">{{ truncateDescription(location.description) }}</p>
+            
+            <!-- Comments Preview -->
+            <div *ngIf="location.commentsList && location.commentsList.length > 0" 
+                 class="comment-preview">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+              <p>{{ location.commentsList[0].content }}</p>
+            </div>
+
+            <!-- Tags Section -->
+            <div class="tags-section">
+              <!-- Sensations -->
+              <div *ngIf="location.sensations && location.sensations.length > 0" 
+                   class="tags-group">
+                <ion-chip 
+                  *ngFor="let sensation of processArrayString(location.sensations).slice(0, 2)" 
+                  class="sensation-chip">
+                  <ion-label>{{ sensation }}</ion-label>
+                </ion-chip>
+                <span *ngIf="processArrayString(location.sensations).length > 2" 
+                      class="more-tags">+{{ processArrayString(location.sensations).length - 2 }}</span>
+              </div>
+
+              <!-- Smells -->
+              <div *ngIf="location.smells && location.smells.length > 0" 
+                   class="tags-group">
+                <ion-chip 
+                  *ngFor="let smell of processArrayString(location.smells).slice(0, 2)" 
+                  class="smell-chip">
+                  <ion-label>{{ smell }}</ion-label>
+                </ion-chip>
+                <span *ngIf="processArrayString(location.smells).length > 2" 
+                      class="more-tags">+{{ processArrayString(location.smells).length - 2 }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- Social Feed Section -->
+    <div *ngIf="posts.length > 0" class="posts-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+          Feed Social
+        </h2>
+        <ion-button 
+          fill="outline" 
+          size="small" 
+          (click)="toggleCreatePost()">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Crear Post
+        </ion-button>
+      </div>
+
+      <!-- Create Post Form -->
+      <ion-card *ngIf="showCreatePost" class="create-post-card">
+        <ion-card-header>
+          <ion-card-title>Crear Nuevo Post</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Título</ion-label>
+            <ion-input 
+              [(ngModel)]="newPost.title" 
+              placeholder="Título de tu post">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Contenido</ion-label>
+            <ion-textarea 
+              [(ngModel)]="newPost.content" 
+              placeholder="¿Qué quieres compartir?"
+              rows="4">
+            </ion-textarea>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Ubicación (opcional)</ion-label>
+            <ion-select [(ngModel)]="newPost.location" placeholder="Selecciona una ubicación">
+              <ion-select-option *ngFor="let location of locations" [value]="location._id">
+                {{ location.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <div class="post-actions">
+            <ion-button 
+              expand="block" 
+              (click)="createPost()"
+              [disabled]="loading">
+              Crear Post
+            </ion-button>
+            
+            <ion-button 
+              expand="block" 
+              fill="outline" 
+              color="medium"
+              (click)="toggleCreatePost()">
+              Cancelar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Posts List -->
+      <div class="posts-grid">
+        <ion-card *ngFor="let post of posts" class="post-card">
+          <ion-card-header>
+            <div class="post-header">
+              <div class="author-info">
+                <ion-avatar>
+                  <img [src]="post.author?.avatar || '/assets/icon/favicon.png'" alt="Avatar">
+                </ion-avatar>
+                <div class="author-details">
+                  <h3>{{ post.author?.name || post.authorName || 'Usuario' }}</h3>
+                  <p>{{ formatDate(post.createdAt) }}</p>
+                </div>
+              </div>
+            </div>
+            <ion-card-title>{{ post.title }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>{{ post.content }}</p>
+            
+            <img *ngIf="post.image" [src]="post.image" alt="Post image" class="post-image">
+
+            <div class="post-actions">
+              <ion-button 
+                fill="clear" 
+                size="small"
+                [color]="post.liked ? 'danger' : 'medium'"
+                (click)="likePost(post._id)">
+                <ion-icon [name]="post.liked ? 'heart' : 'heart-outline'"></ion-icon>
+                {{ post.likes }}
+              </ion-button>
+
+              <ion-button fill="clear" size="small" color="medium">
+                <ion-icon name="chatbubble-outline"></ion-icon>
+                {{ post.comments }}
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>Cargando contenido...</p>
+    </div>
+  </div>
+</ion-content>
+
+<app-footer></app-footer>
