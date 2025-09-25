@@ -1,0 +1,21 @@
+﻿<div class="map-wrapper">
+  <div 
+    *ngIf="!isMapLoaded && !mapError" 
+    class="map-loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando mapa...</p>
+  </div>
+  
+  <div 
+    *ngIf="mapError" 
+    class="map-error">
+    <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+    <p>{{ mapError }}</p>
+  </div>
+  
+  <div 
+    #mapContainer 
+    class="map-container"
+    [style.display]="isMapLoaded && !mapError ? 'block' : 'none'">
+  </div>
+</div>

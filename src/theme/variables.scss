@@ -1,2 +1,150 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+/* === Design System Variables === */
+:root {
+
+    
+  /* Custom Colors */
+  --verdeprimary: #96E600;
+  --verdehover: #85D400;
+  --verdelight: #B4FF33;
+  --verdesaturado: #7AC800;
+  --verdereducido: #A8E67A;
+
+  --rojoprimary: #E62C07;
+  --rojohover: #CC2606;
+  --rojointenso: #FF3D1A;
+  --rojoclaro: #FF6B4D;
+  --rojobajo: #D96B5A;
+
+  --moradoprimary: #AD00E6;
+  --moradohover: #9C00CC;
+  --moradoclaro: #C64DFF;
+  --moradosaturado: #8800B3;
+  --moradoreducido: #BA7ACC;
+
+  --azulprimary: #0D3ADB;
+  --azulhover: #0B32C2;
+  --azulclaro: #4D6BFF;
+  --azulsaturado: #0B2BAA;
+  --azulreducido: #7A91E6;
+
+  --azulsecundario: #31DBFF;
+  --azulsechover: #2BBFD9;
+  --azulsecundarioclaro: #5BE6FF;
+  --azulsecundariosaturado: #2AA8CC;
+  --azulsecundarioreducido: #7ACEE6;
+
+  /* Ionic Colors */
+  --ion-color-primary: #0D3ADB;
+  --ion-color-primary-rgb: 13, 58, 219;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0b33c1;
+  --ion-color-primary-tint: #254edf;
+
+  --ion-color-secondary: #4D7CFE;
+  --ion-color-secondary-rgb: 77, 124, 254;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #446de0;
+  --ion-color-secondary-tint: #5f89fe;
+
+  /* Theme Variables */
+  --background: #ffffff;
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  --primary: #0D3ADB;
+  --primary-foreground: #ffffff;
+  --secondary: #f7fafc;
+  --secondary-foreground: #1f2937;
+  --muted: #f7fafc;
+  --muted-foreground: #718096;
+  --accent: #f7fafc;
+  --accent-foreground: #1f2937;
+  --destructive: #E62C07;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #1f2937;
+  --chart-1: #f56565;
+  --chart-2: #48bb78;
+  --chart-3: #4299e1;
+  --chart-4: #ed8936;
+  --chart-5: #ecc94b;
+  --radius: 0.5rem;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Font */
+  --ion-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* === Dark Theme === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1a202c;
+    --foreground: #e2e8f0;
+    --card: #1a202c;
+    --card-foreground: #e2e8f0;
+    --popover: #1a202c;
+    --popover-foreground: #e2e8f0;
+    --primary: #4D7CFE;
+    --primary-foreground: #1a202c;
+    --secondary: #2d3748;
+    --secondary-foreground: #e2e8f0;
+    --muted: #2d3748;
+    --muted-foreground: #a0aec0;
+    --accent: #2d3748;
+    --accent-foreground: #e2e8f0;
+    --destructive: #c53030;
+    --destructive-foreground: #e2e8f0;
+    --border: #2d3748;
+    --input: #2d3748;
+    --ring: #a0aec0;
+    --chart-1: #e53e3e;
+    --chart-2: #38a169;
+    --chart-3: #3182ce;
+    --chart-4: #dd6b20;
+    --chart-5: #d69e2e;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* === Mixins for Reusable Styles === */
+@mixin glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+}
+
+@mixin hover-lift {
+  transition: transform 0.3s var(--transition-ease), box-shadow 0.3s var(--transition-ease);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elevated);
+  }
+}
+
+/* === Base Styles === */
+* {
+  border-color: var(--border);
+  outline-color: var(--ring);
+  outline-offset: 2px;
+}
+
+body {
+  font-family: var(--ion-font-family);
+  background: var(--background);
+  color: var(--foreground);
+}

@@ -1,0 +1,41 @@
+.register-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  .logo-container {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, var(--azulprimary), var(--azulsecundario));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      color: var(--ion-color-medium);
+      margin: 0;
+    }
+  }
+
+  .auth-form {
+    background: transparent;
+    margin-bottom: 1rem;
+
+    ion-item {
+      --background: transparent;
+      --border-color: var(--ion-color-light);
+      margin-bottom: 1rem;
+    }
+  }
+}

@@ -32,7 +32,7 @@
     <ion-card *ngFor="let location of filteredLocations" class="location-card" (click)="selectLocation(location)">
       <!-- Image Header -->
       <div class="card-image-container">
-        <img [src]="location.images?.[0]?.src || 'assets/placeholder.jpg'" [alt]="location.name">
+        <img [src]="location.images && location.images[0]?.src || 'assets/placeholder.png'" [alt]="location.name">
         <div class="image-overlay"></div>
         <div class="location-name-overlay">
           <ion-icon name="location-outline"></ion-icon>
@@ -45,17 +45,17 @@
         <p class="location-description">{{ truncateDescription(location.description) }}</p>
         
         <!-- Comments Preview -->
-        <div class="comment-preview" *ngIf="location.commentsList?.length > 0">
+        <div class="comment-preview" *ngIf="location.commentsList && location.commentsList.length > 0">
           <ion-icon name="chatbubble-outline"></ion-icon>
           <p>{{ location.commentsList[0].content }}</p>
         </div>
 
         <!-- Tags -->
         <div class="tags-container">
-          <ion-chip *ngIf="location.sensations?.length > 0" class="sensation-chip">
+          <ion-chip *ngIf="location.sensations && location.sensations.length > 0" class="sensation-chip">
             <ion-label>{{ processArrayString(location.sensations) }}...</ion-label>
           </ion-chip>
-          <ion-chip *ngIf="location.smells?.length > 0" class="smell-chip">
+          <ion-chip *ngIf="location.smells && location.smells.length > 0" class="smell-chip">
             <ion-label>{{ processArrayString(location.smells) }}...</ion-label>
           </ion-chip>
         </div>

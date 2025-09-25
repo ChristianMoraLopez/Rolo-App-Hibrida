@@ -1,0 +1,60 @@
+﻿<div class="welcome-container">
+  <div class="welcome-content">
+    <div class="hero-section">
+      <h1 class="hero-title">
+        Mapa de Sensaciones de Bogotá
+      </h1>
+      <p class="hero-subtitle">
+        Comparte y descubre las emociones y sensaciones que despiertan los diferentes lugares de nuestra ciudad. 
+        Un espacio para mapear la experiencia colectiva de vivir en Bogotá.
+      </p>
+    </div>
+
+    <div class="action-buttons">
+      <ion-button 
+        expand="block" 
+        size="large" 
+        class="primary-btn"
+        (click)="navigateToExplore()">
+        <ion-icon name="map-outline" slot="start"></ion-icon>
+        Explorar Lugares
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        size="large" 
+        fill="outline" 
+        class="secondary-btn"
+        (click)="navigateToAddLocation()">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Agregar Lugar
+      </ion-button>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-item">
+        <ion-icon name="location-outline"></ion-icon>
+        <div class="stat-content">
+          <h3>200+</h3>
+          <p>Lugares Descubiertos</p>
+        </div>
+      </div>
+      
+      <div class="stat-item">
+        <ion-icon name="people-outline"></ion-icon>
+        <div class="stat-content">
+          <h3>150+</h3>
+          <p>Exploradores</p>
+        </div>
+      </div>
+      
+      <div class="stat-item">
+        <ion-icon name="heart-outline"></ion-icon>
+        <div class="stat-content">
+          <h3>1000+</h3>
+          <p>Experiencias</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

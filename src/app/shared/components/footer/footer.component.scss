@@ -1,0 +1,82 @@
+﻿.custom-footer {
+  --background: linear-gradient(135deg, var(--azulprimary) 0%, var(--moradoprimary) 100%);
+  --color: white;
+  
+  .footer-toolbar {
+    --background: transparent;
+    --color: white;
+    --border-style: none;
+    padding: 1rem 0;
+  }
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  
+  .footer-info {
+    text-align: center;
+    
+    h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: white;
+    }
+    
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 0.5rem;
+    
+    ion-button {
+      --color: white;
+      --background: rgba(255, 255, 255, 0.1);
+      --border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      
+      &:hover {
+        --background: rgba(255, 255, 255, 0.2);
+      }
+      
+      ion-icon {
+        font-size: 1.25rem;
+      }
+    }
+  }
+  
+  .footer-copyright {
+    p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    .footer-info {
+      text-align: left;
+    }
+    
+    .footer-copyright p {
+      text-align: right;
+    }
+  }
+}

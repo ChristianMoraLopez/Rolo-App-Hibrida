@@ -9,6 +9,9 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
+/* Ensure @use is before any other rules/imports */
+@use './app/theme/variables' as *;
+
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
@@ -35,8 +38,6 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
-/* Import app theme variables */
-@import './app/theme/variables.scss';
 
 /* Leaflet + custom marker styles */
 .leaflet-container {
