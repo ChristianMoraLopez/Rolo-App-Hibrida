@@ -37,6 +37,32 @@ export type PostComment = {
 };
 
 // Tipo principal para el post modificado
+export interface PremiumLocation {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  features: string[];
+  category: 'PREMIUM' | 'VIP' | 'EXCLUSIVE';
+  rating: number;
+  reviews: number;
+  isAvailable: boolean;
+}
+
+export interface CartItem {
+  location: PremiumLocation;
+  quantity: number;
+}
+
+export interface Cart {
+  items: CartItem[];
+  total: number;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface PostType {
   _id: string; // ID del post
   title: string; // Título del post

@@ -17,6 +17,14 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/locations/locations.page').then(m => m.LocationsPage)
       },
       {
+        path: 'locations/premium',
+        loadComponent: () => import('./pages/locations/premium-locations/premium-locations.page').then(m => m.PremiumLocationsPage)
+      },
+      {
+        path: 'cart',
+        loadComponent: () => import('./pages/cart/cart.page').then(m => m.CartPage)
+      },
+      {
         path: 'bogotanos',
         loadComponent: () => import('./pages/bogotanos/bogotanos.page').then(m => m.BogotanosPage)
       },
