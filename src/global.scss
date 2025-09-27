@@ -39,91 +39,234 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-/* Leaflet + custom marker styles */
-.leaflet-container {
-	z-index: 1;
+/* === GLOBAL STYLES === */
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
 }
 
-.custom-marker-icon {
-	color: var(--azulprimary);
-	display: flex;
-	align-items: center;
-	justify-content: center;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--ion-font-family);
+  background: var(--ion-background-color);
+  color: var(--ion-text-color);
 }
 
-.custom-marker-icon svg {
-	color: currentColor;
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
 }
 
-.leaflet-popup-content-wrapper {
-	border-radius: 0.5rem;
+p {
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
 }
 
-.leaflet-popup-content {
-	margin: 0.5rem 0.75rem;
+/* Button improvements */
+ion-button {
+  --border-radius: 12px;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --padding-top: 0.75rem;
+  --padding-bottom: 0.75rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.025em;
 }
 
-/* Map palette to Ionic color variables so components pick it up */
-:root {
-	--ion-color-primary: var(--azulprimary);
-	--ion-color-primary-rgb: 13, 58, 219; /* approx for azulprimary */
-	--ion-color-primary-contrast: #ffffff;
-	--ion-color-primary-contrast-rgb: 255,255,255;
-
-	--ion-color-secondary: var(--azulsecundario);
-	--ion-color-secondary-contrast: #000000;
-
-	--ion-color-success: var(--verdeprimary);
-	--ion-color-danger: var(--rojoprimary);
-	--ion-color-warning: var(--verdelight);
-
-	--ion-item-background: #ffffff;
-	--ion-card-background: #ffffff;
-}
-
-/* Global UI styling using palette */
-ion-header, .app-header {
-	background: linear-gradient(90deg, var(--azulprimary), var(--azulclaro));
-	color: white;
-}
-
-ion-toolbar ion-title {
-	color: white;
-	font-weight: 600;
-}
-
-/* Primary buttons */
-.button-primary, ion-button.ion-color-primary, .btn-primary {
-	--background: var(--azulprimary);
-	--background-activated: var(--azulhover);
-	--color: #ffffff;
-}
-
-/* Secondary buttons */
-.button-secondary, .btn-secondary {
-	background: var(--azulsecundario);
-	color: #000;
-}
-
-/* Cards */
+/* Card improvements */
 ion-card {
-	border-radius: var(--app-radius);
-	box-shadow: 0 6px 18px rgba(10,20,40,0.06);
+  --border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-a, a:link, a:visited {
-	color: var(--azulprimary);
+ion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Inputs focus ring */
-ion-input::part(native) {
-	outline: none;
-}
-ion-item.ion-focused {
-	box-shadow: 0 0 0 3px rgba(13,58,219,0.12);
+/* Input improvements */
+ion-input, ion-textarea, ion-select {
+  --border-radius: 12px;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
 }
 
-/* Small utility classes */
-.text-primary { color: var(--azulprimary) !important; }
-.bg-primary { background: var(--azulprimary) !important; }
-.rounded { border-radius: var(--app-radius); }
+ion-item {
+  --border-radius: 12px;
+  --padding-start: 1rem;
+  --inner-padding-end: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Header improvements */
+ion-header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-toolbar {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+}
+
+/* Content improvements */
+ion-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+/* Tab bar improvements */
+ion-tab-bar {
+  --background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-tab-button {
+  --color: var(--ion-color-medium);
+  --color-selected: var(--azulprimary);
+}
+
+/* Chip improvements */
+ion-chip {
+  --border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+/* Avatar improvements */
+ion-avatar {
+  --border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Searchbar improvements */
+ion-searchbar {
+  --border-radius: 12px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading and empty states */
+.loading-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  
+  ion-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--ion-color-medium);
+  }
+  
+  h2, h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--ion-text-color);
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Utility classes */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.margin-top { margin-top: 1rem; }
+.margin-bottom { margin-bottom: 1rem; }
+.margin-horizontal { margin-left: 1rem; margin-right: 1rem; }
+.margin-vertical { margin-top: 1rem; margin-bottom: 1rem; }
+
+.padding-top { padding-top: 1rem; }
+.padding-bottom { padding-bottom: 1rem; }
+.padding-horizontal { padding-left: 1rem; padding-right: 1rem; }
+.padding-vertical { padding-top: 1rem; padding-bottom: 1rem; }
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  ion-card {
+    margin: 0.5rem;
+  }
+  
+  .padding-horizontal {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .margin-horizontal {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in { animation: fadeIn 0.3s ease; }
+.slide-in-up { animation: slideInUp 0.4s ease; }
+.slide-in-left { animation: slideInLeft 0.4s ease; }
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  ion-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  ion-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  
+  ion-header {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  ion-tab-bar {
+    --background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
