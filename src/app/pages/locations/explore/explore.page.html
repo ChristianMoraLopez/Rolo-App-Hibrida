@@ -1,15 +1,4 @@
-﻿<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Explorar</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="doRefresh($event)">
-        <ion-icon name="refresh-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
+﻿<ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Explorar</ion-title>
@@ -70,6 +59,14 @@
     </ion-card>
   </div>
 
+  <!-- Locations Map -->
+  <app-google-map
+    *ngIf="!loading && filteredLocations.length > 0 && apiLoaded"
+    [locations]="filteredLocations"
+    (locationSelected)="viewLocationDetails($event._id)"
+    style="display: block; height: 400px; width: 100%; margin: 20px;"
+  ></app-google-map>
+
   <!-- Loading State -->
   <div *ngIf="loading" class="loading-container">
     <ion-spinner name="crescent"></ion-spinner>
@@ -105,17 +102,18 @@
       <ion-row>
         <ion-col size="12" size-md="6" size-lg="4" *ngFor="let location of filteredLocations">
           <ion-card class="location-card" (click)="viewLocationDetails(location._id)">
-            
             <!-- Image Container -->
             <div class="image-container">
               <img 
-                *ngIf="location.images && location.images.length > 0" 
-                [src]="location.images[0]" 
+                *ngIf="location.images && location.images.length > 0 && location.images[0].src" 
+                [src]="location.images[0].src" 
                 [alt]="location.name"
                 class="location-image"
-                loading="lazy">
-              <div *ngIf="!location.images || location.images.length === 0" class="no-image">
+                loading="lazy"
+                (error)="onImageError(location)">
+              <div *ngIf="!location.images || location.images.length === 0 || !location.images[0].src" class="no-image">
                 <ion-icon name="image-outline"></ion-icon>
+                <p>No hay imagen disponible</p>
               </div>
             </div>
 
@@ -171,13 +169,12 @@
               <div class="location-info">
                 <div>
                   <ion-icon name="person-outline"></ion-icon>
-                  <span>Creado por {{ getCreatorName(location) }}</span>
+                  <span>Creado por {{ getCreatorName(location.createdBy) }}</span>
                 </div>
                 <div>
                   <ion-icon name="calendar-outline"></ion-icon>
                   <span>{{ formatDate(location.createdAt) }}</span>
                 </div>
-                
               </div>
             </ion-card-content>
           </ion-card>
@@ -195,5 +192,4 @@
       refreshing-text="Actualizando...">
     </ion-refresher-content>
   </ion-refresher>
-
 </ion-content>

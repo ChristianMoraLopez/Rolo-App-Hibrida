@@ -1,21 +1,41 @@
 ﻿<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="feed">
+  <ion-tab-bar slot="bottom" class="modern-tab-bar">
+    <ion-tab-button tab="feed" href="/tabs/feed">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Feed</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="explore">
-      <ion-icon name="map-outline"></ion-icon>
+    <ion-tab-button tab="explore" href="/tabs/explore">
+      <ion-icon name="search-outline"></ion-icon>
       <ion-label>Explorar</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="add-location">
+    <ion-tab-button tab="add-location" href="/tabs/add-location">
       <ion-icon name="add-circle-outline"></ion-icon>
       <ion-label>Agregar</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile">
+    <ion-tab-button tab="locations" href="/tabs/locations">
+      <ion-icon name="map-outline"></ion-icon>
+      <ion-label>Mapa</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="bogotanos" href="/tabs/bogotanos">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Bogotanos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="cart" href="/tabs/cart" class="cart-tab">
+      <ion-icon name="cart-outline"></ion-icon>
+      <ion-label>Carrito</ion-label>
+      <ion-badge 
+        *ngIf="(cartItemCount$ | async) && (cartItemCount$ | async)! > 0"
+        class="cart-badge">
+        {{ cartItemCount$ | async }}
+      </ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" href="/tabs/profile">
       <ion-icon name="person-outline"></ion-icon>
       <ion-label>Perfil</ion-label>
     </ion-tab-button>

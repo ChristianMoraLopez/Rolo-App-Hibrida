@@ -1,20 +1,37 @@
-
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lugares</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content class="locations-content">
   <!-- Header Section -->
   <div class="header-section">
     <h1 class="page-title">Lugares Destacados</h1>
-    <p class="page-subtitle">Descubre espacios únicos de nuestra ciudad</p>
+    <p class="page-subtitle">Explora los mejores lugares de la ciudad</p>
   </div>
 
   <!-- Search Bar -->
   <div class="search-container">
     <ion-searchbar 
-      placeholder="Buscar lugares..."
+      placeholder="Buscar por nombre o descripción..."
       animated="true"
       (ionInput)="handleSearch($event)"
       class="custom-searchbar">
     </ion-searchbar>
+  </div>
+
+  <!-- Map Section -->
+  <app-google-map
+    *ngIf="filteredLocations.length && apiLoaded"
+    [locations]="filteredLocations"
+    (locationSelected)="onLocationSelected($event)"
+    style="display: block; height: 400px; width: 100%;"
+    class="map-container"
+  ></app-google-map>
+  <div class="map-error" *ngIf="apiLoadError">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>{{ apiLoadError }}</p>
   </div>
 
   <!-- Loading State -->
@@ -24,7 +41,7 @@
   </div>
 
   <!-- Locations Grid -->
-  <div class="locations-grid" *ngIf="!isLoading && locations.length > 0">
+  <div class="locations-grid" *ngIf="!isLoading && filteredLocations.length > 0">
     <ion-card *ngFor="let location of filteredLocations" class="location-card" (click)="selectLocation(location)">
       <!-- Image Header -->
       <div class="card-image-container">
@@ -38,21 +55,26 @@
 
       <!-- Card Content -->
       <ion-card-content>
+        <div class="location-meta">
+          <span class="meta-item">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ location.address || 'Bogotá' }}
+          </span>
+          <span class="meta-divider">•</span>
+          <span class="meta-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            {{ formatDate(location.createdAt) }}
+          </span>
+        </div>
         <p class="location-description">{{ truncateDescription(location.description) }}</p>
         
-        <!-- Comments Preview -->
-        <div class="comment-preview" *ngIf="location.commentsList && location.commentsList.length > 0">
-          <ion-icon name="chatbubble-outline"></ion-icon>
-          <p>{{ location.commentsList[0].content }}</p>
-        </div>
-
         <!-- Tags -->
         <div class="tags-container">
-          <ion-chip *ngIf="location.sensations && location.sensations.length > 0" class="sensation-chip">
-            <ion-label>{{ processArrayString(location.sensations) }}...</ion-label>
+          <ion-chip *ngFor="let sensation of processArrayString(location.sensations)" class="sensation-chip">
+            <ion-label>{{ sensation }}</ion-label>
           </ion-chip>
-          <ion-chip *ngIf="location.smells && location.smells.length > 0" class="smell-chip">
-            <ion-label>{{ processArrayString(location.smells) }}...</ion-label>
+          <ion-chip *ngFor="let smell of processArrayString(location.smells)" class="smell-chip">
+            <ion-label>{{ smell }}</ion-label>
           </ion-chip>
         </div>
       </ion-card-content>

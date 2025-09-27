@@ -1,457 +1,339 @@
 :host {
-  /* === Sistema de Colores Mejorado === */
+  /* === Sistema de Diseño: Colores y Variables === */
   --surface-primary: #ffffff;
-  --surface-secondary: #f7f8fa;
+  --surface-secondary: #f9fafb;
   --surface-elevated: #ffffff;
-  --text-primary: #1f2937;
+  --text-primary: #111827;
   --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
+  --text-muted: #6b7280;
   --border-light: #e5e7eb;
   --border-medium: #d1d5db;
-  --accent-primary: #059669; /* Verde más natural */
-  --accent-secondary: #ecfdf5;
-  --accent-warm: #dc2626; /* Rojo para aromas */
-  --accent-warm-light: #fef2f2;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --accent-primary: #10b981; /* Verde esmeralda */
+  --accent-primary-light: #ecfdf5;
+  --accent-primary-dark: #059669;
+  --accent-warm: #f43f5e; /* Rosa */
+  --accent-warm-light: #fff1f2;
+  --accent-rating: #f59e0b; /* Ámbar para estrellas */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --radius: 8px;
   --radius-lg: 12px;
-  --transition: all 0.2s ease;
+  --transition: all 0.25s ease-in-out;
+}
 
-  /* === Header Elegante === */
-  ion-header {
-    --background: var(--surface-primary);
-    --border-width: 0px;
-    box-shadow: var(--shadow-sm);
+/* === Estilos Base del Contenido === */
+.locations-content {
+  --background: var(--surface-secondary);
+}
 
-    ion-toolbar {
-      --background: transparent;
-      padding: 0 20px;
-      min-height: 64px;
+/* === Sección de Cabecera === */
+.header-section {
+  padding: 32px 20px 24px;
+  background: var(--surface-primary);
+  border-bottom: 1px solid var(--border-light);
 
-      ion-title {
-        font-weight: 700;
-        font-size: 1.2rem;
-        color: var(--text-primary);
-        letter-spacing: -0.02em;
-      }
-    }
+  .page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 4px;
   }
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+}
 
-  /* === Content Container === */
-  .locations-content {
+/* === Barra de Búsqueda === */
+.search-container {
+  padding: 16px 20px;
+  background: var(--surface-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  .custom-searchbar {
     --background: var(--surface-secondary);
-    background: var(--background);
-    min-height: 100vh;
-  }
-
-  /* === Header Section === */
-  .header-section {
-    padding: 40px 24px 32px;
-    background: var(--surface-primary);
-    border-bottom: 1px solid var(--border-light);
-
-    .page-title {
-      font-size: 2rem;
-      font-weight: 800;
-      margin: 0 0 8px 0;
-      color: var(--text-primary);
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-    }
-
-    .page-subtitle {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      margin: 0;
-      font-weight: 400;
-      line-height: 1.4;
+    --border-radius: var(--radius);
+    --box-shadow: none;
+    border: 1px solid var(--border-light);
+    transition: var(--transition);
+    &:hover, &:focus-within {
+      border-color: var(--accent-primary);
+      --box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
     }
   }
+}
 
-  /* === Search Section === */
-  .search-container {
-    padding: 24px;
-    background: var(--surface-primary);
+/* === Títulos de Sección (Mapa y Resultados) === */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 24px 20px 16px;
+  margin: 0;
+  ion-icon {
+    font-size: 1.5rem;
+    color: var(--accent-primary);
+  }
+}
 
-    .custom-searchbar {
-      --background: var(--surface-secondary);
-      --border-radius: var(--radius-lg);
-      --box-shadow: none;
-      --color: var(--text-primary);
-      --placeholder-color: var(--text-muted);
-      border: 1px solid var(--border-medium);
-      transition: var(--transition);
-      max-width: 600px;
-      margin: 0 auto;
+/* === Sección del Mapa === */
+.map-section-container {
+  padding: 0 20px;
+  .map-container {
+    display: block;
+    height: 400px;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+}
 
-      &:hover, &:focus-within {
-        border-color: var(--accent-primary);
-        --box-shadow: var(--shadow-sm);
-      }
+/* === Listado de Lugares === */
+.locations-list {
+  padding: 0 20px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-      &::part(native) {
-        padding: 16px 20px;
-      }
+/* === Tarjeta de Lugar (Estilo Marketplace) === */
+.location-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  overflow: hidden;
+  margin: 0 0 24px;
+  cursor: pointer;
 
-      &::part(icon) {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-      }
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-primary);
+  }
+
+  /* --- Columna de Imagen --- */
+  .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    &:hover img {
+      transform: scale(1.05);
+    }
+    .category-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      --background: rgba(16, 185, 129, 0.9);
+      --color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(4px);
+      border-radius: var(--radius);
     }
   }
 
-  /* === Loading State === */
-  .loading-container {
+  /* --- Columna de Contenido --- */
+  .card-content-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 320px;
-    background: var(--surface-primary);
-    margin: 24px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-
-    ion-spinner {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 20px;
-      --color: var(--accent-primary);
-    }
-
-    p {
-      color: var(--text-secondary);
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-  }
-
-  /* === Locations Grid === */
-  .locations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 24px;
-    padding: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    @media (max-width: 480px) {
-      padding: 16px;
-      gap: 16px;
-    }
-  }
-
-  /* === Location Card === */
-  .location-card {
-    margin: 0;
-    background: var(--surface-primary);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--border-medium);
-    }
-
-    /* === Image Container === */
-    .card-image-container {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
+    flex-grow: 1;
+    padding: 16px;
+    
+    ion-card-header {
+      padding: 0;
+      margin-bottom: 12px;
+      ion-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.3;
+        margin-bottom: 8px;
       }
-
-      &:hover img {
-        transform: scale(1.03);
+    }
+    
+    ion-card-content {
+      padding: 0;
+      flex-grow: 1;
+    }
+    
+    .rating-section {
+      display: flex;
+      align-items: center;
+      color: var(--accent-rating);
+      ion-icon { font-size: 1.1rem; margin-right: 2px; }
+      .rating-text {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-left: 8px;
+        font-weight: 500;
       }
+    }
 
-      .image-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 65%;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-        pointer-events: none;
-      }
-
-      .location-name-overlay {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        right: 20px;
+    .location-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 16px 0;
+      .meta-item {
         display: flex;
         align-items: center;
-        color: white;
-        font-weight: 700;
-        font-size: 1.1rem;
-        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-        line-height: 1.3;
-
-        ion-icon {
-          margin-right: 8px;
-          font-size: 1.2rem;
-          opacity: 0.95;
-        }
+        gap: 6px;
+        ion-icon { font-size: 1rem; }
       }
     }
 
-    /* === Card Content === */
-    ion-card-content {
-      padding: 24px;
+    .location-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
 
-      .location-description {
-        font-size: 0.95rem;
-        line-height: 1.6;
-        color: var(--text-secondary);
-        margin-bottom: 20px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      /* === Comment Preview === */
-      .comment-preview {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 20px;
-        padding: 16px;
-        background: var(--surface-secondary);
-        border-radius: var(--radius);
-        border-left: 3px solid var(--accent-primary);
-
-        ion-icon {
-          color: var(--accent-primary);
-          font-size: 1.1rem;
-          margin-right: 12px;
-          flex-shrink: 0;
-          margin-top: 2px;
+    .tags-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      .tags-group {
+        .tags-label {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          display: block;
+          margin-bottom: 8px;
         }
-
-        p {
-          font-size: 0.9rem;
-          color: var(--text-secondary);
-          font-style: italic;
-          margin: 0;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          line-height: 1.5;
-        }
-      }
-
-      /* === Tags Container === */
-      .tags-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border-light);
+        gap: 8px;
+      }
+    }
+    
+    ion-chip {
+        border-radius: 16px;
+        height: 28px;
+        font-weight: 500;
+        ion-label { font-size: 0.85rem; }
+    }
+    .sensation-chip {
+        --background: var(--accent-primary-light);
+        --color: var(--accent-primary-dark);
+    }
+    .smell-chip {
+        --background: var(--accent-warm-light);
+        --color: var(--accent-warm);
+    }
 
-        /* === Sensation Chips === */
-        .sensation-chip {
-          --background: var(--accent-secondary);
-          --color: var(--accent-primary);
-          border: 1px solid rgba(5, 150, 105, 0.2);
-          border-radius: 20px;
-          height: 32px;
-          font-weight: 600;
-          transition: var(--transition);
-          position: relative;
-
-          &::before {
-            content: "🌿";
-            margin-right: 4px;
-          }
-
-          &:hover {
-            --background: var(--accent-primary);
-            --color: white;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-sm);
-          }
-
-          ion-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-          }
-        }
-
-        /* === Smell Chips === */
-        .smell-chip {
-          --background: var(--accent-warm-light);
-          --color: var(--accent-warm);
-          border: 1px solid rgba(220, 38, 38, 0.2);
-          border-radius: 20px;
-          height: 32px;
-          font-weight: 600;
-          transition: var(--transition);
-          position: relative;
-
-          &::before {
-            content: "🌺";
-            margin-right: 4px;
-          }
-
-          &:hover {
-            --background: var(--accent-warm);
-            --color: white;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-sm);
-          }
-
-          ion-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-          }
-        }
+    .card-footer {
+      padding-top: 16px;
+      margin-top: auto;
+      .details-button {
+        --color: var(--accent-primary);
+        font-weight: 600;
+        text-transform: none;
+        font-size: 1rem;
+        justify-content: flex-end;
+        &:hover { --color: var(--accent-primary-dark); }
       }
     }
   }
 
-  /* === Empty State === */
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 360px;
-    background: var(--surface-primary);
-    border-radius: var(--radius-lg);
-    margin: 24px;
-    box-shadow: var(--shadow-sm);
-    text-align: center;
-
-    ion-icon {
-      font-size: 4rem;
-      margin-bottom: 24px;
-      color: var(--text-muted);
-      opacity: 0.7;
+  /* --- Layout de 2 columnas para pantallas más grandes --- */
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    
+    .card-image-wrapper {
+      height: 100%;
     }
+    .card-content-wrapper {
+      padding: 24px;
+    }
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: 340px 1fr;
+  }
+}
 
-    p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      margin: 0;
-      max-width: 300px;
-      line-height: 1.5;
+/* === Estados (Carga, Vacío, Error) === */
+.loading-container, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 20px;
+  text-align: center;
+  p, h3 { color: var(--text-secondary); }
+  ion-icon { font-size: 4rem; color: var(--text-muted); margin-bottom: 16px; }
+}
+.map-error {
+  margin: 0 20px;
+  padding: 16px;
+  background: var(--accent-warm-light);
+  color: var(--accent-warm);
+  border-radius: var(--radius);
+}
+
+/* === Botón Flotante (FAB) === */
+ion-fab-button {
+  --background: var(--accent-primary);
+  --background-activated: var(--accent-primary-dark);
+  --box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  &:hover { transform: scale(1.05) rotate(15deg); }
+}
+
+/* ===================================== */
+/* ===           MODO OSCURO           === */
+/* ===================================== */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --surface-primary: #1f2937;    /* Gris oscuro 800 */
+    --surface-secondary: #111827;  /* Gris oscuro 900 */
+    --surface-elevated: #374151;   /* Gris oscuro 700 */
+    --text-primary: #f9fafb;       /* Gris claro 50 */
+    --text-secondary: #d1d5db;     /* Gris claro 300 */
+    --text-muted: #9ca3af;         /* Gris claro 400 */
+    --border-light: #374151;       /* Gris oscuro 700 */
+    --border-medium: #4b5563;      /* Gris oscuro 600 */
+    --accent-primary-light: #064e3b;
+    --accent-primary-dark: #34d399;
+    --accent-warm-light: #7f1d1d;
+    --accent-warm: #fda4af;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.6);
+  }
+
+  .search-container .custom-searchbar {
+    &:hover, &:focus-within {
+      --box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
     }
   }
 
-  /* === FAB Button === */
-  ion-fab-button {
-    --background: var(--accent-primary);
-    --background-activated: #047857;
-    --background-hover: #065f46;
-    --box-shadow: var(--shadow-lg);
-    --border-radius: 50%;
-    transition: var(--transition);
-    width: 60px;
-    height: 60px;
-
-    ion-icon {
-      color: white;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    &:hover {
-      transform: scale(1.05);
-      --box-shadow: 0 12px 20px rgba(5, 150, 105, 0.3);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-
-  /* === Dark Mode === */
-  @media (prefers-color-scheme: dark) {
-    :host {
-      --surface-primary: #1f2937;
-      --surface-secondary: #111827;
-      --text-primary: #f9fafb;
-      --text-secondary: #d1d5db;
-      --text-muted: #9ca3af;
-      --border-light: #374151;
-      --border-medium: #4b5563;
-      --accent-secondary: #064e3b;
-      --accent-warm-light: #450a0a;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
-    }
-
-    .locations-content {
-      --background: var(--surface-secondary);
-    }
-  }
-
-  /* === Responsive Design === */
-  @media (max-width: 480px) {
-    .header-section {
-      padding: 32px 20px 24px;
-
-      .page-title {
-        font-size: 1.75rem;
-      }
-
-      .page-subtitle {
-        font-size: 0.95rem;
-      }
-    }
-
-    .search-container {
-      padding: 20px;
-    }
-
-    .location-card {
-      .card-image-container {
-        height: 200px;
-      }
-
-      ion-card-content {
-        padding: 20px;
-      }
-    }
-
-    .loading-container,
-    .empty-state {
-      margin: 20px;
-      height: 300px;
-    }
-
-    ion-fab-button {
-      width: 56px;
-      height: 56px;
-
-      ion-icon {
-        font-size: 1.4rem;
-      }
-    }
+  .location-card .card-image-wrapper .category-badge {
+    --background: rgba(16, 185, 129, 0.8);
   }
 }

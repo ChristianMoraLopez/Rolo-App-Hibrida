@@ -9,7 +9,6 @@ import { LocationService } from '../../core/services/location.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { PostType } from '../../core/entities/types';
 import { LocationType, getCreatorName } from '../../core/entities/location-types';
-import { HeaderComponent } from '../../shared/components/header/header.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { WelcomeComponent } from '../../shared/components/welcome/welcome.component';
 import { GoogleMapComponent } from '../../shared/components/google-map/google-map.component';
@@ -24,7 +23,6 @@ import { GoogleMapComponent } from '../../shared/components/google-map/google-ma
     CommonModule, 
     FormsModule,
     RouterModule,
-    HeaderComponent, 
     FooterComponent, 
     WelcomeComponent,
     GoogleMapComponent
@@ -236,5 +234,5 @@ export class FeedPage implements OnInit, OnDestroy {
     return getCreatorName(createdBy);
   }
 
-  // Remove the processArrayString method since sensations and smells are now proper arrays
+  // Remove the processArrayString method since sensations and smells are now proper arraysa
 }

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 import { LocationService } from '../../core/services/location.service';
 import { LocationType } from '@entities/location-types';
+import { GoogleMapComponent } from '../../shared/components/google-map/google-map.component';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -13,7 +14,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './locations.page.html',
   styleUrls: ['./locations.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, GoogleMapsModule, HttpClientModule]
+  imports: [CommonModule, IonicModule, GoogleMapsModule, HttpClientModule, GoogleMapComponent]
 })
 export class LocationsPage implements OnInit {
   locations: LocationType[] = [];
@@ -21,7 +22,14 @@ export class LocationsPage implements OnInit {
   isLoading: boolean = false;
   mapOptions: google.maps.MapOptions = {
     center: { lat: 4.6097, lng: -74.0817 },
-    zoom: 12
+    zoom: 12,
+    styles: [
+      {
+        featureType: 'all',
+        elementType: 'labels',
+        stylers: [{ visibility: 'on' }]
+      }
+    ]
   };
   selectedLocation: LocationType | null = null;
   apiLoaded: boolean = false;
@@ -30,27 +38,25 @@ export class LocationsPage implements OnInit {
   constructor(private locationService: LocationService) {}
 
   async ngOnInit() {
-    // Cargar Google Maps API
     try {
       await this.loadGoogleMaps();
       this.apiLoaded = true;
+      console.log('Google Maps API loaded successfully');
     } catch (error) {
       this.apiLoadError = 'Error cargando Google Maps. Verifica tu configuración.';
       console.error('Google Maps load error:', error);
+      this.apiLoaded = false;
     }
 
-    // Suscribirse a las ubicaciones
     this.locationService.locations$.subscribe(locations => {
-      console.log('Locations:', locations);
       this.locations = locations;
       this.filteredLocations = locations;
     });
-    
+
     this.locationService.loading$.subscribe(loading => {
-      console.log('Loading:', loading);
       this.isLoading = loading;
     });
-    
+
     await this.locationService.fetchLocations();
   }
 
@@ -69,18 +75,14 @@ export class LocationsPage implements OnInit {
 
   handleSearch(event: any) {
     const query = event.target.value.toLowerCase();
-    
     if (!query) {
       this.filteredLocations = this.locations;
       return;
     }
-    
-    this.filteredLocations = this.locations.filter(location => {
-      return (
-        location.name.toLowerCase().includes(query) ||
-        location.description.toLowerCase().includes(query)
-      );
-    });
+    this.filteredLocations = this.locations.filter(location =>
+      location.name.toLowerCase().includes(query) ||
+      location.description.toLowerCase().includes(query)
+    );
   }
 
   truncateDescription(description: string, maxLength: number = 120): string {
@@ -88,21 +90,29 @@ export class LocationsPage implements OnInit {
     return description.substring(0, maxLength) + '...';
   }
 
-  processArrayString(input: string[]): string {
+  processArrayString(input: string[]): string[] {
     try {
-      const jsonString = input.join("");
+      if (input.length === 1 && typeof input[0] === 'string') {
+        const parsedArray = JSON.parse(input[0]);
+        return Array.isArray(parsedArray) ? parsedArray : input;
+      }
+      const jsonString = input.join('');
       const parsedArray = JSON.parse(jsonString);
-      return Array.isArray(parsedArray) ? parsedArray[0] : input[0];
+      return Array.isArray(parsedArray) ? parsedArray : input;
     } catch (error) {
-      console.error("Error parsing JSON string:", error);
-      return input[0] || '';
+      console.error('Error processing array string:', error);
+      return input;
     }
   }
 
   selectLocation(location: LocationType) {
     this.selectedLocation = location;
-    // Aquí puedes navegar a la página de detalles
+    // Optionally navigate to a detail page
     // this.router.navigate(['/locations', location._id]);
+  }
+
+  onLocationSelected(location: LocationType) {
+    this.selectLocation(location);
   }
 
   closeInfoWindow() {
@@ -124,5 +134,14 @@ export class LocationsPage implements OnInit {
     } catch (error) {
       console.error('Error creating test location:', error);
     }
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('es-CO', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(date);
   }
 }

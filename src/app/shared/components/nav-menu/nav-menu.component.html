@@ -1,184 +1,184 @@
-<ion-menu contentId="main-content" class="custom-menu">
-  <ion-header class="menu-header-wrapper">
-    <ion-toolbar class="menu-header">
-      <ion-title>
-        <div class="menu-logo">
-          <div class="logo-container">
-            <img src="assets/bogota.png" alt="RoloApp" class="menu-logo-img"/>
-            <div class="logo-glow"></div>
-          </div>
-          <div class="app-title">
-            <span class="gradient-text">Rolo</span>
-            <span class="city-text">App</span>
+<!-- src/app/shared/components/nav-menu/nav-menu.component.html -->
+<!-- ❌ QUITAR la etiqueta <ion-menu> de aquí - ya está en app-layout -->
+<!-- ✅ Solo el contenido del menú -->
+
+<ion-header class="menu-header-wrapper">
+  <ion-toolbar class="menu-header">
+    <ion-title>
+      <div class="menu-logo">
+        <div class="logo-container">
+          <img src="assets/bogota.png" alt="RoloApp" class="menu-logo-img"/>
+          <div class="logo-glow"></div>
+        </div>
+        <div class="app-title">
+          <span class="gradient-text">Rolo</span>
+          <span class="city-text">App</span>
+        </div>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="menu-container">
+  <!-- Usuario autenticado - Perfil -->
+  <ng-container *ngIf="isAuthenticated && user">
+    <div class="user-profile-section">
+      <div class="user-card">
+        <div class="avatar-container">
+          <ion-avatar class="user-avatar">
+            <!-- ✅ CAMBIO PRINCIPAL: Usar el método getter y agregar manejo de errores -->
+            <img 
+              [src]="getAvatarUrl()" 
+              [alt]="user?.name || 'Usuario'"
+              (error)="onImageError($event)"
+              (load)="onImageLoad($event)"
+              loading="lazy"
+            >
+          </ion-avatar>
+          <div class="avatar-ring"></div>
+          <div class="status-indicator"></div>
+        </div>
+        <div class="user-info">
+          <h2 class="user-name">{{ user?.name || 'Usuario' }}</h2>
+          <p class="user-email">{{ user?.email || 'email@ejemplo.com' }}</p>
+          <div class="user-badge">
+            <ion-icon name="diamond" class="badge-icon"></ion-icon>
+            <span>Explorador VIP</span>
           </div>
         </div>
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content class="menu-content">
-    <div class="menu-container">
-      <!-- Usuario autenticado - Perfil -->
-      <ng-container *ngIf="isAuthenticated && user">
-        <div class="user-profile-section">
-          <div class="user-card">
-            <div class="avatar-container">
-              <ion-avatar class="user-avatar">
-                <!-- ✅ CAMBIO PRINCIPAL: Usar el método getter y agregar manejo de errores -->
-                <img 
-                  [src]="getAvatarUrl()" 
-                  [alt]="user?.name || 'Usuario'"
-                  (error)="onImageError($event)"
-                  (load)="onImageLoad($event)"
-                  loading="lazy"
-                >
-              </ion-avatar>
-              <div class="avatar-ring"></div>
-              <div class="status-indicator"></div>
-            </div>
-            <div class="user-info">
-              <h2 class="user-name">{{ user?.name || 'Usuario' }}</h2>
-              <p class="user-email">{{ user?.email || 'email@ejemplo.com' }}</p>
-              <div class="user-badge">
-                <ion-icon name="diamond" class="badge-icon"></ion-icon>
-                <span>Explorador VIP</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-
-      <ion-list class="menu-list">
-        <!-- Navegación principal -->
-        <div class="menu-section">
-          <div class="section-header">
-            <span class="section-title">Explorar</span>
-            <div class="section-line"></div>
-          </div>
-          
-          <ion-item routerLink="/explore" detail="false" class="menu-item explore-item">
-            <div class="item-icon-container" slot="start">
-              <ion-icon name="compass-outline" class="menu-icon"></ion-icon>
-              <div class="icon-glow"></div>
-            </div>
-            <ion-label>
-              <span class="item-text">Explorar</span>
-              <p class="item-description">Descubre lugares únicos</p>
-            </ion-label>
-            <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-          </ion-item>
-        </div>
-
-        <!-- Opciones para usuarios autenticados -->
-        <ng-container *ngIf="isAuthenticated">
-          <div class="menu-section">
-            <div class="section-header">
-              <span class="section-title">Comunidad</span>
-              <div class="section-line"></div>
-            </div>
-            
-            <ion-item routerLink="/bogotanos" detail="false" class="menu-item community-item">
-              <div class="item-icon-container" slot="start">
-                <ion-icon name="people" class="menu-icon"></ion-icon>
-                <div class="icon-glow community-glow"></div>
-              </div>
-              <ion-label>
-                <span class="item-text">Bogotanos</span>
-                <p class="item-description">Conecta con locales</p>
-              </ion-label>
-              <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-            </ion-item>
-
-            <ion-item routerLink="/add-location" detail="false" class="menu-item location-item">
-              <div class="item-icon-container" slot="start">
-                <ion-icon name="location-outline" class="menu-icon"></ion-icon>
-                <div class="icon-glow location-glow"></div>
-              </div>
-              <ion-label>
-                <span class="item-text">Agregar Ubicación</span>
-                <p class="item-description">Comparte un lugar especial</p>
-              </ion-label>
-              <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-            </ion-item>
-
-            <!-- ✅ NUEVO: Agregar enlace a locaciones premium -->
-            <ion-item routerLink="/premium-locations" detail="false" class="menu-item premium-item">
-              <div class="item-icon-container" slot="start">
-                <ion-icon name="diamond" class="menu-icon"></ion-icon>
-                <div class="icon-glow premium-glow"></div>
-              </div>
-              <ion-label>
-                <span class="item-text">Locaciones Premium</span>
-                <p class="item-description">Eventos exclusivos</p>
-              </ion-label>
-              <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-            </ion-item>
-          </div>
-
-          <!-- Opciones de cuenta -->
-          <div class="menu-section account-section">
-            <div class="section-header">
-              <span class="section-title">Cuenta</span>
-              <div class="section-line"></div>
-            </div>
-
-            <ion-item button (click)="logout()" detail="false" class="menu-item logout-item">
-              <div class="item-icon-container" slot="start">
-                <ion-icon name="log-out-outline" class="menu-icon logout-icon"></ion-icon>
-                <div class="icon-glow logout-glow"></div>
-              </div>
-              <ion-label>
-                <span class="item-text logout-text">Cerrar sesión</span>
-                <p class="item-description">Nos vemos pronto</p>
-              </ion-label>
-            </ion-item>
-          </div>
-        </ng-container>
-
-        <!-- Opciones para usuarios no autenticados -->
-        <ng-container *ngIf="!isAuthenticated">
-          <div class="menu-section auth-section">
-            <div class="section-header">
-              <span class="section-title">Únete a nosotros</span>
-              <div class="section-line"></div>
-            </div>
-
-            <ion-item routerLink="/login" detail="false" class="menu-item login-item">
-              <div class="item-icon-container" slot="start">
-                <ion-icon name="log-in-outline" class="menu-icon login-icon"></ion-icon>
-                <div class="icon-glow login-glow"></div>
-              </div>
-              <ion-label>
-                <span class="item-text">Iniciar Sesión</span>
-                <p class="item-description">Accede a tu cuenta</p>
-              </ion-label>
-              <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-            </ion-item>
-
-            <ion-item routerLink="/register" detail="false" class="menu-item register-item">
-              <div class="item-icon-container" slot="start">
-                <ion-icon name="person-add-outline" class="menu-icon register-icon"></ion-icon>
-                <div class="icon-glow register-glow"></div>
-              </div>
-              <ion-label>
-                <span class="item-text">Registrarse</span>
-                <p class="item-description">Crea tu cuenta gratis</p>
-              </ion-label>
-              <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
-            </ion-item>
-          </div>
-        </ng-container>
-      </ion-list>
-
-      <!-- Footer decorativo -->
-      <div class="menu-footer">
-        <div class="footer-decoration">
-          <div class="decoration-dot"></div>
-          <div class="decoration-dot"></div>
-          <div class="decoration-dot"></div>
-        </div>
-        <p class="footer-text">Hecho con ❤️ en Bogotá</p>
       </div>
     </div>
-  </ion-content>
-</ion-menu>
+  </ng-container>
+
+  <ion-list class="menu-list">
+    <!-- Navegación principal -->
+    <div class="menu-section">
+      <div class="section-header">
+        <span class="section-title">Explorar</span>
+        <div class="section-line"></div>
+      </div>
+      
+      <ion-item routerLink="/explore" detail="false" class="menu-item explore-item">
+        <div class="item-icon-container" slot="start">
+          <ion-icon name="compass-outline" class="menu-icon"></ion-icon>
+          <div class="icon-glow"></div>
+        </div>
+        <ion-label>
+          <span class="item-text">Explorar</span>
+          <p class="item-description">Descubre lugares únicos</p>
+        </ion-label>
+        <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+      </ion-item>
+    </div>
+
+    <!-- Opciones para usuarios autenticados -->
+    <ng-container *ngIf="isAuthenticated">
+      <div class="menu-section">
+        <div class="section-header">
+          <span class="section-title">Comunidad</span>
+          <div class="section-line"></div>
+        </div>
+        
+        <ion-item routerLink="/bogotanos" detail="false" class="menu-item community-item">
+          <div class="item-icon-container" slot="start">
+            <ion-icon name="people" class="menu-icon"></ion-icon>
+            <div class="icon-glow community-glow"></div>
+          </div>
+          <ion-label>
+            <span class="item-text">Bogotanos</span>
+            <p class="item-description">Conecta con locales</p>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+
+        <ion-item routerLink="/add-location" detail="false" class="menu-item location-item">
+          <div class="item-icon-container" slot="start">
+            <ion-icon name="location-outline" class="menu-icon"></ion-icon>
+            <div class="icon-glow location-glow"></div>
+          </div>
+          <ion-label>
+            <span class="item-text">Agregar Ubicación</span>
+            <p class="item-description">Comparte un lugar especial</p>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+
+        <!-- ✅ NUEVO: Agregar enlace a locaciones premium -->
+        <ion-item routerLink="/premium-locations" detail="false" class="menu-item premium-item">
+          <div class="item-icon-container" slot="start">
+            <ion-icon name="diamond" class="menu-icon"></ion-icon>
+            <div class="icon-glow premium-glow"></div>
+          </div>
+          <ion-label>
+            <span class="item-text">Locaciones Premium</span>
+            <p class="item-description">Eventos exclusivos</p>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+      </div>
+
+      <!-- Opciones de cuenta -->
+      <div class="menu-section account-section">
+        <div class="section-header">
+          <span class="section-title">Cuenta</span>
+          <div class="section-line"></div>
+        </div>
+
+        <ion-item button (click)="logout()" detail="false" class="menu-item logout-item">
+          <div class="item-icon-container" slot="start">
+            <ion-icon name="log-out-outline" class="menu-icon logout-icon"></ion-icon>
+            <div class="icon-glow logout-glow"></div>
+          </div>
+          <ion-label>
+            <span class="item-text logout-text">Cerrar sesión</span>
+            <p class="item-description">Nos vemos pronto</p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ng-container>
+
+    <!-- Opciones para usuarios no autenticados -->
+    <ng-container *ngIf="!isAuthenticated">
+      <div class="menu-section auth-section">
+        <div class="section-header">
+          <span class="section-title">Únete a nosotros</span>
+          <div class="section-line"></div>
+        </div>
+
+        <ion-item routerLink="/login" detail="false" class="menu-item login-item">
+          <div class="item-icon-container" slot="start">
+            <ion-icon name="log-in-outline" class="menu-icon login-icon"></ion-icon>
+            <div class="icon-glow login-glow"></div>
+          </div>
+          <ion-label>
+            <span class="item-text">Iniciar Sesión</span>
+            <p class="item-description">Accede a tu cuenta</p>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+
+        <ion-item routerLink="/register" detail="false" class="menu-item register-item">
+          <div class="item-icon-container" slot="start">
+            <ion-icon name="person-add-outline" class="menu-icon register-icon"></ion-icon>
+            <div class="icon-glow register-glow"></div>
+          </div>
+          <ion-label>
+            <span class="item-text">Registrarse</span>
+            <p class="item-description">Crea tu cuenta gratis</p>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+      </div>
+    </ng-container>
+  </ion-list>
+
+  <!-- Footer decorativo -->
+  <div class="menu-footer">
+    <div class="footer-decoration">
+      <div class="decoration-dot"></div>
+      <div class="decoration-dot"></div>
+      <div class="decoration-dot"></div>
+    </div>
+    <p class="footer-text">Hecho con ❤️ en Bogotá</p>
+  </div>
+</div>

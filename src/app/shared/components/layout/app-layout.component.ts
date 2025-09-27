@@ -1,19 +1,11 @@
+// src/app/shared/components/layout/app-layout.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, MenuController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
 import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 import { map } from 'rxjs';
-import { addIcons } from 'ionicons';
-import { 
-  cartOutline,
-  homeOutline,
-  searchOutline,
-  mapOutline,
-  peopleOutline,
-  menuOutline
-} from 'ionicons/icons';
 
 @Component({
   selector: 'app-layout',
@@ -32,16 +24,12 @@ export class AppLayoutComponent {
     map(cart => cart.items.reduce((acc: number, item) => acc + item.quantity, 0))
   );
 
-  constructor(private cartService: CartService) {
-    // Registrar todos los iconos necesarios
-    addIcons({
-      'cart-outline': cartOutline,
-      'home-outline': homeOutline,
-      'search-outline': searchOutline,
-      'map-outline': mapOutline,
-      'people-outline': peopleOutline,
-      'menu-outline': menuOutline
-    });
+  constructor(
+    private cartService: CartService,
+    private menuCtrl: MenuController
+  ) {
+    // ✅ Habilitar el menú principal
+    this.menuCtrl.enable(true, 'main-menu');
 
     // Debug del carrito
     this.cartItemCount$.subscribe(count => {
