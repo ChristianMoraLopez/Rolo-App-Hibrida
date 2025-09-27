@@ -7,7 +7,7 @@
       "@core/*": ["app/core/*"],
       "@entities/*": ["app/core/entities/*"],
       "@guards/*": ["app/core/guards/*"],
-      "@services/*": ["app/core/services/*"],
+      "@services/*": ["src/app/core/services/*"],
       "@pages/*": ["app/pages/*"],
       "@feed/*": ["app/pages/feed/*"],
       "@locations/*": ["app/pages/locations/*"],

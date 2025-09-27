@@ -1,19 +1,83 @@
-<ion-header class="ion-no-border modern-header">
-  <ion-toolbar class="gradient-toolbar">
-    <ion-buttons slot="start">
-      <ion-menu-button class="modern-menu-button"></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      <div class="logo-container">
-        <img src="assets/bogota.png" alt="RoloApp" class="logo-img"/>
-        <span class="logo-text">RoloApp</span>
-      </div>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    
+    <!-- Side Menu -->
+    <ion-menu contentId="main-content" type="overlay" side="start">
+      <app-nav-menu></app-nav-menu>
+    </ion-menu>
 
-<app-nav-menu></app-nav-menu>
+    <!-- Main Layout with Header and Content -->
+    <div class="ion-page" id="main-content">
+      
+      <!-- Fixed Header -->
+      <ion-header class="ion-no-border modern-header">
+        <ion-toolbar class="gradient-toolbar">
+          <ion-buttons slot="start">
+            <ion-menu-button class="modern-menu-button"></ion-menu-button>
+          </ion-buttons>
+          
+          <ion-title>
+            <div class="logo-container">
+              <img src="assets/bogota.png" alt="RoloApp" class="logo-img"/>
+              <span class="logo-text">RoloApp</span>
+            </div>
+          </ion-title>
+          
+          <ion-buttons slot="end">
+            <ion-button class="cart-button" routerLink="/cart">
+              <div class="cart-icon-container">
+                <div class="icon-glow"></div>
+                <ion-icon name="cart-outline"></ion-icon>
+              </div>
+              <!-- Badge del carrito -->
+              <ion-badge 
+                *ngIf="(cartItemCount$ | async) && (cartItemCount$ | async)! > 0" 
+                color="danger">
+                {{ cartItemCount$ | async }}
+              </ion-badge>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-<ion-content id="main-content" class="modern-content">
-  <router-outlet></router-outlet>
-</ion-content>
+      <!-- Page Content -->
+      <ion-content class="modern-content">
+        <router-outlet></router-outlet>
+      </ion-content>
+
+      <!-- Bottom Tab Navigation -->
+      <ion-tab-bar class="modern-tab-bar">
+        <ion-tab-button tab="feed" href="/feed">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Feed</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="explore" href="/explore">
+          <ion-icon name="search-outline"></ion-icon>
+          <ion-label>Explorar</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="locations" href="/locations">
+          <ion-icon name="map-outline"></ion-icon>
+          <ion-label>Mapa</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="bogotanos" href="/bogotanos">
+          <ion-icon name="people-outline"></ion-icon>
+          <ion-label>Bogotanos</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="cart" href="/cart" class="cart-tab">
+          <ion-icon name="cart-outline"></ion-icon>
+          <ion-label>Carrito</ion-label>
+          <ion-badge 
+            *ngIf="(cartItemCount$ | async) && (cartItemCount$ | async)! > 0"
+            class="cart-badge">
+            {{ cartItemCount$ | async }}
+          </ion-badge>
+        </ion-tab-button>
+      </ion-tab-bar>
+
+    </div>
+  </ion-split-pane>
+</ion-app>

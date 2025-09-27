@@ -1,130 +1,156 @@
-:host {
-  /* =======================
-     HEADER
-  ======================= */
-  .modern-header {
-    ion-toolbar {
-      --background: #ffffff;
-      --color: var(--foreground);
-      --border-width: 0;
-      --border-color: transparent;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      border-radius: 0 0 14px 14px; /* borde suave y moderno */
-      padding: 0 12px;
-      transition: all 0.25s ease-in-out;
-
-      &:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+.custom-tab-bar {
+  --background: rgba(255, 255, 255, 0.95);
+  --color: var(--ion-color-medium);
+  --color-selected: var(--ion-color-primary);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  
+  ion-tab-button {
+    --color: var(--ion-color-medium);
+    --color-selected: var(--ion-color-primary);
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    
+    ion-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    ion-icon {
+      font-size: 1.5rem;
+      margin-bottom: 2px;
+    }
+    
+    &.cart-tab {
+      position: relative;
+      
+      .cart-badge {
+        position: absolute;
+        top: 4px;
+        right: 20px;
+        background: var(--ion-color-danger);
+        color: white;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        animation: pulse 2s infinite;
       }
     }
-
-    ion-title {
-      font-weight: 700;
-      font-size: 1.15rem;
-      letter-spacing: -0.3px;
-      color: var(--foreground);
-    }
-  }
-
-  /* =======================
-     BOTÓN DE MENÚ
-  ======================= */
-  .modern-menu-button {
-    --color: var(--foreground);
-    transition: transform 0.2s ease, color 0.25s ease;
-
+    
     &:hover {
-      --color: var(--azulprimary);
-      transform: scale(1.08) rotate(3deg);
+      --color: var(--ion-color-primary);
     }
-
-    &:active {
-      transform: scale(0.95);
+    
+    &.tab-selected {
+      --color: var(--ion-color-primary);
+      
+      ion-icon {
+        transform: scale(1.1);
+      }
     }
   }
+}
 
-  /* =======================
-     LOGO
-  ======================= */
-  .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
-    .logo-img {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--azulprimary), var(--azulreducido));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .custom-tab-bar {
+    --background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Modern Tab Bar Styles
+.modern-tab-bar {
+  --background: rgba(255, 255, 255, 0.95);
+  --color: var(--ion-color-medium);
+  --color-selected: var(--azulprimary, var(--ion-color-primary));
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  
+  ion-tab-button {
+    --color: var(--ion-color-medium);
+    --color-selected: var(--azulprimary, var(--ion-color-primary));
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    transition: all 0.3s ease;
+    
+    ion-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    
+    ion-icon {
+      font-size: 1.4rem;
+      margin-bottom: 2px;
       transition: transform 0.3s ease;
-
-      &:hover {
-        transform: rotate(8deg) scale(1.05);
+    }
+    
+    &.cart-tab {
+      position: relative;
+      
+      .cart-badge {
+        position: absolute;
+        top: 4px;
+        right: 16px;
+        background: var(--danger-gradient, var(--ion-color-danger));
+        color: white;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        animation: pulse 2s infinite;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
       }
     }
-
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--foreground);
-      background: linear-gradient(90deg, var(--azulprimary), var(--azulreducido));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-  }
-
-  /* =======================
-     CONTENIDO
-  ======================= */
-  .modern-content {
-    --background: var(--background);
-    padding: 24px;
-
-    .card {
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-      padding: 20px;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-
-      &:hover {
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
-        transform: translateY(-3px);
+    
+    &:hover {
+      --color: var(--azulprimary, var(--ion-color-primary));
+      
+      ion-icon {
+        transform: scale(1.1);
       }
-
-      h2, h3, h4 {
+    }
+    
+    &.tab-selected {
+      --color: var(--azulprimary, var(--ion-color-primary));
+      
+      ion-icon {
+        transform: scale(1.1);
+      }
+      
+      ion-label {
         font-weight: 600;
-        margin-bottom: 10px;
-        color: var(--foreground);
-      }
-
-      p {
-        line-height: 1.6;
-        color: var(--muted-foreground);
       }
     }
   }
+}
 
-  /* =======================
-     ANIMACIONES SUTILES
-  ======================= */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .card {
-    animation: fadeInUp 0.4s ease forwards;
+// Hide tab bar on auth pages (if needed)
+:host-context(.hide-tabs) {
+  .modern-tab-bar {
+    display: none;
   }
 }

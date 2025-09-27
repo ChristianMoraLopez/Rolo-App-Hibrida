@@ -2,12 +2,13 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PostService, CreatePostData } from '../../core/services/post.service';
 import { LocationService } from '../../core/services/location.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { PostType } from '../../core/entities/types';
-import { LocationType } from '../../core/entities/location-types';
+import { LocationType, getCreatorName } from '../../core/entities/location-types';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { WelcomeComponent } from '../../shared/components/welcome/welcome.component';
@@ -17,11 +18,12 @@ import { GoogleMapComponent } from '../../shared/components/google-map/google-ma
   selector: 'app-feed',
   templateUrl: './feed.page.html',
   styleUrls: ['./feed.page.scss'],
-  standalone: true,
+  standalone: true, 
   imports: [
     IonicModule, 
     CommonModule, 
-    FormsModule, 
+    FormsModule,
+    RouterModule,
     HeaderComponent, 
     FooterComponent, 
     WelcomeComponent,
@@ -115,6 +117,7 @@ export class FeedPage implements OnInit, OnDestroy {
     this.filteredLocations = this.locations.filter(location =>
       location.name.toLowerCase().includes(lowercaseQuery) ||
       location.description.toLowerCase().includes(lowercaseQuery) ||
+      location.address.toLowerCase().includes(lowercaseQuery) ||
       (location.sensations && location.sensations.some(sensation =>
         sensation.toLowerCase().includes(lowercaseQuery)
       )) ||
@@ -191,9 +194,10 @@ export class FeedPage implements OnInit, OnDestroy {
     }
   }
 
-  onLocationSelected(location: any) {
+  onLocationSelected(location: LocationType) {
     // Navigate to location detail or show location info
     console.log('Location selected:', location);
+    // Could navigate to location detail: this.router.navigate(['/locations', location._id]);
   }
 
   private resetNewPost() {
@@ -206,7 +210,7 @@ export class FeedPage implements OnInit, OnDestroy {
   }
 
   // Utility methods
-  formatDate(date: Date): string {
+  formatDate(date: Date | string): string {
     return new Date(date).toLocaleDateString('es-CO', {
       year: 'numeric',
       month: 'short',
@@ -227,20 +231,10 @@ export class FeedPage implements OnInit, OnDestroy {
     return description.substring(0, maxLength) + '...';
   }
 
-  processArrayString(input: string[]): string[] {
-    if (!Array.isArray(input)) return [];
-    
-    try {
-      if (input.length === 1 && typeof input[0] === 'string') {
-        const parsedArray = JSON.parse(input[0]);
-        if (Array.isArray(parsedArray)) {
-          return parsedArray;
-        }
-      }
-      return input;
-    } catch (error) {
-      console.error("Error parsing array string:", error);
-      return input;
-    }
+  // Use the utility function from location-types
+  getCreatorName(createdBy: any): string {
+    return getCreatorName(createdBy);
   }
+
+  // Remove the processArrayString method since sensations and smells are now proper arrays
 }

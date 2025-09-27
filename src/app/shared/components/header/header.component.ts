@@ -2,8 +2,8 @@
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-import { NotificationService } from '../../core/services/notification.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-header',

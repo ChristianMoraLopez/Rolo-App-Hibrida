@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientModule } from '@angular/common/http'; 
-import { LocationService } from '@services/location.service';
+import { LocationService } from '../../core/services/location.service';
 import { LocationType } from '@entities/location-types';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';

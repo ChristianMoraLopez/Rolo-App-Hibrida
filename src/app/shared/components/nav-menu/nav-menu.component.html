@@ -24,14 +24,21 @@
           <div class="user-card">
             <div class="avatar-container">
               <ion-avatar class="user-avatar">
-                <img [src]="user?.avatar || 'assets/bogota.png'" [alt]="user?.name">
+                <!-- ✅ CAMBIO PRINCIPAL: Usar el método getter y agregar manejo de errores -->
+                <img 
+                  [src]="getAvatarUrl()" 
+                  [alt]="user?.name || 'Usuario'"
+                  (error)="onImageError($event)"
+                  (load)="onImageLoad($event)"
+                  loading="lazy"
+                >
               </ion-avatar>
               <div class="avatar-ring"></div>
               <div class="status-indicator"></div>
             </div>
             <div class="user-info">
-              <h2 class="user-name">{{ user?.name }}</h2>
-              <p class="user-email">{{ user?.email }}</p>
+              <h2 class="user-name">{{ user?.name || 'Usuario' }}</h2>
+              <p class="user-email">{{ user?.email || 'email@ejemplo.com' }}</p>
               <div class="user-badge">
                 <ion-icon name="diamond" class="badge-icon"></ion-icon>
                 <span>Explorador VIP</span>
@@ -90,6 +97,19 @@
               <ion-label>
                 <span class="item-text">Agregar Ubicación</span>
                 <p class="item-description">Comparte un lugar especial</p>
+              </ion-label>
+              <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
+            </ion-item>
+
+            <!-- ✅ NUEVO: Agregar enlace a locaciones premium -->
+            <ion-item routerLink="/premium-locations" detail="false" class="menu-item premium-item">
+              <div class="item-icon-container" slot="start">
+                <ion-icon name="diamond" class="menu-icon"></ion-icon>
+                <div class="icon-glow premium-glow"></div>
+              </div>
+              <ion-label>
+                <span class="item-text">Locaciones Premium</span>
+                <p class="item-description">Eventos exclusivos</p>
               </ion-label>
               <ion-icon name="chevron-forward" slot="end" class="arrow-icon"></ion-icon>
             </ion-item>

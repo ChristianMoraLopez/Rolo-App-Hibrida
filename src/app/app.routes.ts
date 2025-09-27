@@ -9,16 +9,32 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'explore',
+        redirectTo: 'feed',
         pathMatch: 'full',
       },
       {
+        path: 'feed',
+        loadComponent: () => import('./pages/feed/feed.page').then(m => m.FeedPage)
+      },
+      {
         path: 'explore',
+        loadComponent: () => import('./pages/locations/explore/explore.page').then(m => m.ExplorePage)
+      },
+      {
+        path: 'locations',
         loadComponent: () => import('./pages/locations/locations.page').then(m => m.LocationsPage)
+      },
+      {
+        path: 'locations/add',
+        loadComponent: () => import('./pages/locations/add-location/add-location.page').then(m => m.AddLocationPage)
       },
       {
         path: 'locations/premium',
         loadComponent: () => import('./pages/locations/premium-locations/premium-locations.page').then(m => m.PremiumLocationsPage)
+      },
+      {
+        path: 'locations/:id',
+        loadComponent: () => import('./pages/locations/locations.page').then(m => m.LocationsPage)
       },
       {
         path: 'cart',
@@ -44,6 +60,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'explore'
+    redirectTo: 'feed'
   }
 ];

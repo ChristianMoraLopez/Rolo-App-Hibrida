@@ -1,8 +1,7 @@
-﻿// C:\ChristianMoraProjects\RoloApp\Híbrida\src\app\core\services\location.service.ts
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+﻿import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ApiService } from '@services/api.service';
+import { ApiService } from '../../core/services/api.service';
 import { LocationType, NewLocation, UpdateLocation } from '@entities/location-types';
 
 export interface CreateLocationData {
@@ -17,6 +16,20 @@ export interface CreateLocationData {
   longitude?: number;
 }
 
+// Interface para locaciones premium
+export interface PremiumLocation {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  rating: number;
+  capacity: number;
+  amenities: string[];
+  location: string;
+  category: 'wedding' | 'corporate' | 'birthday' | 'quinceañera' | 'graduation' | 'other';
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,17 +37,100 @@ export class LocationService {
   private locationsSubject = new BehaviorSubject<LocationType[]>([]);
   private currentLocationSubject = new BehaviorSubject<LocationType | null>(null);
   private loadingSubject = new BehaviorSubject<boolean>(false);
+  private premiumLocationsSubject = new BehaviorSubject<PremiumLocation[]>([]);
 
   public locations$ = this.locationsSubject.asObservable();
   public currentLocation$ = this.currentLocationSubject.asObservable();
   public loading$ = this.loadingSubject.asObservable();
+  public premiumLocations$ = this.premiumLocationsSubject.asObservable();
 
   constructor(private apiService: ApiService) {
     this.loadInitialLocations();
+    this.loadPremiumLocations();
   }
 
   private async loadInitialLocations(): Promise<void> {
     await this.fetchLocations();
+  }
+
+  private loadPremiumLocations(): void {
+    // Mock de locaciones premium
+    const mockPremiumLocations: PremiumLocation[] = [
+      {
+        _id: 'premium-1',
+        name: 'Hacienda Villa Esperanza',
+        description: 'Elegante hacienda colonial con jardines exuberantes y arquitectura tradicional. Perfecta para bodas y eventos corporativos de lujo.',
+        image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&h=600&fit=crop',
+        price: 8500000,
+        rating: 4.9,
+        capacity: 300,
+        amenities: ['Jardín amplio', 'Salón climatizado', 'Cocina industrial', 'Parqueadero', 'Decoración incluida'],
+        location: 'La Calera, Cundinamarca',
+        category: 'wedding'
+      },
+      {
+        _id: 'premium-2',
+        name: 'Centro de Convenciones Metropolitan',
+        description: 'Moderno centro de convenciones en el corazón de Bogotá. Equipado con tecnología de punta para eventos corporativos.',
+        image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=600&fit=crop',
+        price: 12000000,
+        rating: 4.8,
+        capacity: 500,
+        amenities: ['Tecnología audiovisual', 'Internet de alta velocidad', 'Catering incluido', 'Servicio de traducción'],
+        location: 'Zona Rosa, Bogotá',
+        category: 'corporate'
+      },
+      {
+        _id: 'premium-3',
+        name: 'Quinta Los Arrayanes',
+        description: 'Encantadora quinta campestre rodeada de naturaleza. Ideal para celebraciones familiares y quinceañeras.',
+        image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=600&fit=crop',
+        price: 6500000,
+        rating: 4.7,
+        capacity: 150,
+        amenities: ['Piscina', 'Kiosco BBQ', 'Juegos infantiles', 'Zona verde amplia'],
+        location: 'Cajicá, Cundinamarca',
+        category: 'birthday'
+      },
+      {
+        _id: 'premium-4',
+        name: 'Salón Crystal Palace',
+        description: 'Elegante salón de eventos con decoración de cristal y luces LED. Perfecto para quinceañeras y graduaciones.',
+        image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop',
+        price: 4800000,
+        rating: 4.6,
+        capacity: 200,
+        amenities: ['Pista de baile', 'Sistema de sonido profesional', 'Iluminación LED', 'Área VIP'],
+        location: 'Chapinero, Bogotá',
+        category: 'quinceañera'
+      },
+      {
+        _id: 'premium-5',
+        name: 'Club Campestre El Refugio',
+        description: 'Exclusivo club campestre con vistas panorámicas y servicios de lujo. Para eventos sofisticados y memorables.',
+        image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop',
+        price: 15000000,
+        rating: 5.0,
+        capacity: 400,
+        amenities: ['Campo de golf', 'Spa', 'Restaurant gourmet', 'Helipuerto', 'Suite nupcial'],
+        location: 'Chía, Cundinamarca',
+        category: 'wedding'
+      },
+      {
+        _id: 'premium-6',
+        name: 'Auditorio Universidad Elite',
+        description: 'Moderno auditorio universitario con capacidad para grandes eventos académicos y graduaciones.',
+        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
+        price: 3500000,
+        rating: 4.5,
+        capacity: 800,
+        amenities: ['Proyección 4K', 'Sistema de sonido surround', 'Aire acondicionado', 'Accesibilidad completa'],
+        location: 'Universidad Nacional, Bogotá',
+        category: 'graduation'
+      }
+    ];
+
+    this.premiumLocationsSubject.next(mockPremiumLocations);
   }
 
   async fetchLocations(): Promise<void> {
@@ -142,8 +238,8 @@ export class LocationService {
       const updatedLocation = await firstValueFrom(this.apiService.putFormData<LocationType>(`locations/${id}`, formData));
 
       const currentLocations = this.locationsSubject.value;
-      const updatedLocations = currentLocations.map(loc =>
-        loc._id === id ? updatedLocation : loc
+      const updatedLocations = currentLocations.map(location =>
+        location._id === id ? updatedLocation : location
       );
       this.locationsSubject.next(updatedLocations);
 
@@ -166,7 +262,7 @@ export class LocationService {
       await firstValueFrom(this.apiService.delete(`locations/${id}`));
 
       const currentLocations = this.locationsSubject.value;
-      const filteredLocations = currentLocations.filter(loc => loc._id !== id);
+      const filteredLocations = currentLocations.filter(location => location._id !== id);
       this.locationsSubject.next(filteredLocations);
 
       if (this.currentLocationSubject.value?._id === id) {
@@ -194,6 +290,27 @@ export class LocationService {
     } finally {
       this.loadingSubject.next(false);
     }
+  }
+
+  // Método para obtener locaciones premium
+  getPremiumLocations(): Observable<PremiumLocation[]> {
+    return this.premiumLocations$;
+  }
+
+  // Método para obtener locaciones premium por categoría
+  getPremiumLocationsByCategory(category: PremiumLocation['category']): Observable<PremiumLocation[]> {
+    return this.premiumLocations$.pipe(
+      map(locations => locations.filter(location => location.category === category))
+    );
+  }
+
+  // Método para filtrar locaciones premium por precio
+  getPremiumLocationsByPriceRange(minPrice: number, maxPrice: number): Observable<PremiumLocation[]> {
+    return this.premiumLocations$.pipe(
+      map(locations => locations.filter(location => 
+        location.price >= minPrice && location.price <= maxPrice
+      ))
+    );
   }
 
   getLocations(): LocationType[] {

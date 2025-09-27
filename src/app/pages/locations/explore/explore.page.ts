@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocationService } from '../../../core/services/location.service';
 import { NotificationService } from '../../../core/services/notification.service';
-import { LocationType } from '../../../core/entities/location-types';
+import { LocationType, getCreatorName } from '../../../core/entities/location-types';
 
 @Component({
   selector: 'app-explore',
@@ -146,11 +146,8 @@ export class ExplorePage implements OnInit, OnDestroy {
     });
   }
 
-  getCreatorName(location: LocationType): string {
-    if (typeof location.createdBy === 'string') {
-      return 'Usuario';
-    }
-    return location.createdBy?.name || 'Usuario';
+  getCreatorName(createdBy: any): string {
+    return getCreatorName(createdBy);
   }
 
   hasActiveFilters(): boolean {

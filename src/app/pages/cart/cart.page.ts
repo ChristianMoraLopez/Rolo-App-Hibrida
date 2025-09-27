@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CartService } from '@services/cart.service';
+import { CartService } from '../../core/services/cart.service';
 import { Cart } from '@entities/types';
 
 @Component({

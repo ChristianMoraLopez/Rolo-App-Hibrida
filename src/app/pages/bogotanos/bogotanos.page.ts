@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { PostComponent } from './components/post.component';
 import { CreatePostComponent } from './components/create-post.component';
-import { PostService } from '@services/post.service';
+import { PostService } from '../../core/services/post.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({

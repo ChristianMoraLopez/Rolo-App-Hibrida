@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { ApiService } from '@services/api.service';
-import { StorageService } from '@services/storage.service';
-import { NotificationService } from '@services/notification.service';
+import { ApiService } from '../../core/services/api.service';
+import { StorageService } from '../../core/services/storage.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { User, AuthResponse, LoginRequest, RegisterRequest } from '@entities/types';
 import { environment } from '../../../environments/environment';
 
